@@ -1,0 +1,142 @@
+Notice pour le projet : Gestion de fichiers et détransposition
+
+Binôme de travail :
+
+Personne 1 : Lahna MESSAHEL
+Personne 2 : Melynda AIT ALLALA
+Ce projet consiste à manipuler des fichiers dans un système en ligne de commande à travers une série de scripts et de programmes en C. L’objectif est de réaliser une gestion efficace des fichiers, en particulier des fichiers transposés, et de les manipuler à l’aide de plusieurs scripts shell et programmes en C.
+
+Objectifs du projet :
+Gestion des fichiers dans la corbeille :
+Un script Bash est conçu pour déplacer les fichiers supprimés dans une corbeille spécifique, gérer leur indexation, et offrir des fonctionnalités pour lister le contenu de la corbeille. Les documents supprimés sont :
+
+Déplacés dans un répertoire dédié.
+Indexés avec leur date et leur nom.
+Restaurables à tout moment.
+Transposition de fichiers :
+Un programme en C effectue la transposition d'un fichier source en divisant son contenu en colonnes, puis en créant plusieurs fichiers de sortie contenant ces colonnes transposées.
+
+Les fichiers transposés sont nommés en fonction de leur ordre de colonne.
+Le programme transpose_file effectue la transposition en fonction d’un nombre fourni en paramètre.
+Le programme transpose_mdp utilise un mot de passe comme clé de transposition. Ce dernier est trié selon l’ordre ASCII, et le nombre de fichiers créés correspond à la longueur du mot de passe.
+Après la transposition, le fichier source est supprimé.
+Détransposition de fichiers :
+Un autre programme en C est chargé de lire les fichiers créés par le programme de transposition pour reconstruire le fichier original.
+
+Il réorganise les lignes et les colonnes dans le bon ordre.
+La détransposition repose sur le tri du mot de passe, garantissant que le fichier est reconstitué exactement comme à l’origine.
+Partie bonus :
+L’intégration entre le Bash et les programmes en C permet d’automatiser les processus suivants :
+
+Suppression et transposition :
+
+Lorsqu’un fichier est supprimé, il est transposé et déplacé dans un dossier spécifique appelé .sh-trashbox.
+Les fichiers transposés reçoivent un nom spécifique (identifiant-nomdufichier_*).
+L’index ne contient que la ligne identifiant le fichier.
+Si un dossier est supprimé, tous les fichiers qu’il contient sont transposés et regroupés dans un sous-dossier spécifique (identifiant-nomdudossier). L’index contient une ligne identifiant le dossier.
+Dans tous les cas, (ID)  est incrémenté de 1.
+Restauration :
+Pour un fichier :
+Tous les fichiers transposés correspondants sont parcourus et détransposés.
+Le fichier est restauré soit dans un dossier spécifique, soit dans le chemin courant, soit dans son emplacement initial.
+Pour un dossier :
+Tous les fichiers transposés correspondant au dossier sont parcourus et détransposés un par un.
+Le dossier est restauré soit dans un dossier spécifique, soit dans le chemin courant, soit dans son emplacement initial.
+
+si on veut supprimer un fichier on a
+fichier.txt  QUI CONTIENT : ceci est le contenu de mon fichier a transposer
+en le supprimant avec cette commande ./sae_delete.sh fichier.txt clef
+ on obtient  
+
+
+├── .sh-trashbox
+│   ├── 1-fichier.txt_0  QUI CONTIENT : c  cedoie ns
+│   ├── 1-fichier.txt_1  QUI CONTIENT : csenu  h rpr
+│   ├── 1-fichier.txt_2  QUI CONTIENT : it t mfiaao
+│   ├── 1-fichier.txt_3  QUI CONTIENT : eelonencrtse
+   
+mon index va contenir
+1:/home/l/lahna.messahel/Bureau/sae_broyeur/:fichier.txt:20241218121747
+mon ID va etre initialiser 2
+
+
+si on veut supprimer un dossier on a
+dossier qui contient : fichier.txt et toto.txt
+fichier.txt CONTIENT : ceci est le contenu de mon fichier a transposer
+toto.txt CONTIENT    : ceci est le contenu
+en le supprimant avec cette commande ./sae_delete.sh dossier 12
+ on obtient  
+
+.sh-trashbox
+├── 2-dossier
+│   ├── fichier.txt_0 QUI CONTIENT : cc s ecneud o ihe  rnpsr
+│   ├── fichier.txt_1 QUI CONTIENT : eietl otn emnfciratasoe
+│   ├── toto.txt_0    QUI CONTIENT :cc s ecneu
+│   ├── toto.txt_1    QUI CONTIENT : eietl otn
+│   │  
+
+mon index va contenir
+1:/home/l/lahna.messahel/Bureau/sae_broyeur/:fichier.txt:20241218121747
+2:/home/l/lahna.messahel/Bureau/sae_broyeur/:dossier:20241218122214
+mon ID va etre initialiser 3
+
+
+
+lors de la restauration de mon fichier
+#avec l'option '-d' :  on restaure le fichier vers un dossier specifique , extrait l’ensemble des fichiers passés en paramètre dans le dossier spécifié
+avec la commande ./sae_restore.sh -d repertoire fichier.txt clef
+si repertoire existe pas on va le créer
+en suite en aura
+.
+├── repertoire
+│   ├── fichier.txt  QUI CONTIENT : ceci est le contenu de mon fichier a transposer
+
+#avec l'option '-r' : on restaure le fichier vers l’adressage d’origine des fichiers à sortir de la corbeille,
+avec la commande ./sae_restore.sh -r fichier.txt clef
+
+en suite en aura
+.
+├── adressage d’origine
+│   ├── fichier.txt  QUI CONTIENT : ceci est le contenu de mon fichier a transposer
+
+#sans option : on restaure le fichier vers un mode d’extraction par défaut correspondra à l’option -d ./
+avec la commande ./sae_restore.sh fichier.txt clef
+.
+├── fichier.txt  QUI CONTIENT : ceci est le contenu de mon fichier a transposer
+
+mon INDEX va contenir
+2:/home/l/lahna.messahel/Bureau/sae_broyeur/:dossier:20241218122214
+
+lors de la restauration de mon dossier
+#avec l'option '-d' :  on restaure le dossier vers un dossier specifique , extrait l’ensemble des fichiers passés en paramètre dans le dossier spécifié
+avec la commande ./sae_restore.sh -d repertoire dossier 12
+si repertoire existe pas on va le créer
+en suite en aura
+.
+├── repertoire
+│   ├── dossier
+│   │     ├── fichier.txt  QUI CONTIENT : ceci est le contenu de mon fichier a transposer
+│   │     ├── toto.txt CONTIENT    : ceci est le contenu
+
+#avec l'option '-r' : on restaure le dossier vers l’adressage d’origine des fichiers à sortir de la corbeille,
+avec la commande ./sae_restore.sh -r dossier 12
+
+en suite en aura
+.
+├── adressage d’origine
+│   ├── dossier
+│   │     ├── fichier.txt  QUI CONTIENT : ceci est le contenu de mon fichier a transposer
+│   │     ├── toto.txt CONTIENT    : ceci est le contenu
+
+#sans option : on restaure le dossier vers un mode d’extraction par défaut correspondra à l’option -d ./
+avec la commande ./sae_restore.sh dossier 12
+.
+├── dossier
+│   ├── fichier.txt  QUI CONTIENT : ceci est le contenu de mon fichier a transposer
+│   ├── toto.txt CONTIENT    : ceci est le contenu
+
+mon INDEX dans ce cas va contenir
+
+
+dans tous les cas ID va rester a 3
+
