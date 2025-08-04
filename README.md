@@ -1,8 +1,8 @@
 
 ##  Binôme
 
-- **MESSAHEL Lahna** – m22315283  
-- **AIT ALLALA Melynda** – a22313913
+- **MESSAHEL Lahna** 
+- **AIT ALLALA Melynda** 
 
 ## Présentation du projet
 
