@@ -4,7 +4,7 @@
 - **MESSAHEL Lahna** – m22315283  
 - **AIT ALLALA Melynda** – a22313913
 
-## 📝 Présentation du projet
+## Présentation du projet
 
 Ce projet propose un **système de gestion de suppression et de restauration** de fichiers/dossiers via des scripts Bash et un programme en C.  
 Il permet notamment de :
@@ -28,7 +28,7 @@ Il permet notamment de :
   - Reconstruction du fichier original en respectant l’ordre défini par la clé de transposition.
   - Suppression des fragments après reconstitution.
 
-### 📁 Fichiers système
+### Fichiers système
 - `.sh-trashbox/` : dossier corbeille auto-géré.
 - `INDEX` : structure d’enregistrement simple sous forme `ID:CHEMIN:NOM:DATE`.
 
